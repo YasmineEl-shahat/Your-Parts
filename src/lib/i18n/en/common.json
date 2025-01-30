@@ -1,0 +1,15 @@
+{
+  "posts": "Posts",
+  "delete": "Delete",
+  "deleting": "Deleting...",
+  "previous": "Previous",
+  "next": "Next",
+  "page": "Page",
+  "error_fetching_posts": "Error fetching posts",
+  "create_new_post": "Create New Post",
+  "edit_post": "Edit Post",
+  "post_title": "Post Title",
+  "post_content": "Post Content",
+  "submit": "Submit",
+  "cancel": "Cancel"
+}

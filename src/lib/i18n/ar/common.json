@@ -1,0 +1,15 @@
+{
+  "posts": "المشاركات",
+  "delete": "حذف",
+  "deleting": "جاري الحذف...",
+  "previous": "السابق",
+  "next": "التالي",
+  "page": "صفحة",
+  "error_fetching_posts": "حدث خطأ في جلب المشاركات",
+  "create_new_post": "إنشاء مشاركة جديدة",
+  "edit_post": "تعديل المشاركة",
+  "post_title": "عنوان المشاركة",
+  "post_content": "محتوى المشاركة",
+  "submit": "إرسال",
+  "cancel": "إلغاء"
+}
