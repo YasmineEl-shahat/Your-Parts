@@ -1,6 +1,8 @@
+"use client";
 import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
 import { usePosts } from "../hooks/usePosts";
+import Link from "next/link";
 
 export interface Post {
   id: number;
@@ -12,6 +14,7 @@ export interface Post {
 const PostList = () => {
   const { t } = useTranslation("common");
   const [currentPage, setCurrentPage] = useState(1);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
   const { useGetPosts, deletePost, defaultLimit } = usePosts();
 
   const {
@@ -23,6 +26,13 @@ const PostList = () => {
     limit: defaultLimit,
   });
 
+  const handleDelete = (id: number) => {
+    setDeletingId(id);
+    deletePost.mutate(id, {
+      onSettled: () => setDeletingId(null),
+    });
+  };
+
   if (error) {
     return (
       <div className="p-4 text-red-500 bg-red-50 rounded-lg">
@@ -33,7 +43,15 @@ const PostList = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">{t("posts")}</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-bold mb-6">{t("posts")}</h1>
+        <Link
+          href="/create"
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          {t("create_new_post")}
+        </Link>
+      </div>
 
       {/* Loading Skeleton */}
       {isLoading && (
@@ -62,11 +80,11 @@ const PostList = () => {
               <p className="text-gray-600 mb-4">{post.body}</p>
               <div className="flex justify-end space-x-2">
                 <button
-                  onClick={() => deletePost.mutate(post.id)}
-                  disabled={deletePost.isPending}
+                  onClick={() => handleDelete(post.id)}
+                  disabled={deletingId === post.id}
                   className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-red-300"
                 >
-                  {deletePost.isPending ? t("deleting") : t("delete")}
+                  {deletingId === post.id ? t("deleting") : t("delete")}
                 </button>
               </div>
             </div>

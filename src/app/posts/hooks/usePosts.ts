@@ -45,7 +45,9 @@ export const usePosts = () => {
   const deletePost = useMutation({
     mutationFn: (id: number) => api.delete(`/posts/${id}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({
+        queryKey: ["posts"],
+      });
     },
   });
 
