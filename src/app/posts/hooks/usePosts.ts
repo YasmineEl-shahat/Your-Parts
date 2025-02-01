@@ -34,6 +34,14 @@ export const usePosts = () => {
     });
   };
 
+  // Get single post
+  const useGetPost = (id: number) =>
+    useQuery<Post>({
+      queryKey: ["posts", id],
+      queryFn: () => api.get(`/posts/${id}`).then((res) => res.data),
+      enabled: !!id,
+    });
+
   const createPost = useMutation({
     mutationFn: (newPost: Omit<Post, "id">) =>
       api.post<Post>("/posts", newPost),
@@ -51,10 +59,38 @@ export const usePosts = () => {
     },
   });
 
+  const updatePost = useMutation({
+    mutationFn: (updatedPost: Post) =>
+      api.put<Post>(`/posts/${updatedPost.id}`, updatedPost),
+    onMutate: async (updatedPost) => {
+      await queryClient.cancelQueries({
+        queryKey: ["posts", updatedPost.id],
+      });
+
+      const previousPost = queryClient.getQueryData<Post>([
+        "posts",
+        updatedPost.id,
+      ]);
+
+      queryClient.setQueryData<Post>(["posts", updatedPost.id], updatedPost);
+
+      return { previousPost };
+    },
+    onError: (err, updatedPost, context) => {
+      if (context?.previousPost) {
+        queryClient.setQueryData<Post>(
+          ["posts", updatedPost.id],
+          context.previousPost
+        );
+      }
+    },
+  });
   return {
     useGetPosts,
+    useGetPost,
     createPost,
     deletePost,
+    updatePost,
     defaultLimit,
   };
 };

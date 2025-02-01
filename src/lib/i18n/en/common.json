@@ -11,5 +11,8 @@
   "post_title": "Post Title",
   "post_content": "Post Content",
   "submit": "Submit",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "submitting": "Submitting...",
+  "invalid_input": "Invalid input",
+  "edit": "Edit"
 }

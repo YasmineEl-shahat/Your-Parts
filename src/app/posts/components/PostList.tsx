@@ -46,7 +46,7 @@ const PostList = () => {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold mb-6">{t("posts")}</h1>
         <Link
-          href="/create"
+          href="/posts/pages/create"
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
         >
           {t("create_new_post")}
@@ -79,6 +79,12 @@ const PostList = () => {
               <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
               <p className="text-gray-600 mb-4">{post.body}</p>
               <div className="flex justify-end space-x-2">
+                <Link
+                  href={`/posts/pages/${post.id}`}
+                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  {t("edit")}
+                </Link>
                 <button
                   onClick={() => handleDelete(post.id)}
                   disabled={deletingId === post.id}

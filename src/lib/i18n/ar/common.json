@@ -11,5 +11,8 @@
   "post_title": "عنوان المشاركة",
   "post_content": "محتوى المشاركة",
   "submit": "إرسال",
-  "cancel": "إلغاء"
+  "cancel": "إلغاء",
+  "submitting": "جاري الإرسال...",
+  "invalid_input": "إدخال غير صحيح",
+  "edit": "تعديل"
 }
