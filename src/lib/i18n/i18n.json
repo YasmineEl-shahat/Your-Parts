@@ -1,8 +1,0 @@
-{
-  "locales": ["en", "ar"],
-  "defaultLocale": "en",
-  "localesPath": "src/lib/i18n",
-  "pages": {
-    "*": ["common"]
-  }
-}

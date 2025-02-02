@@ -1,6 +1,6 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import useTranslation from "next-translate/useTranslation";
+import { useTranslation } from "react-i18next";
 import PostForm from "../../components/PostForm";
 import { usePosts } from "../../hooks/usePosts";
 

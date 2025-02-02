@@ -1,8 +1,8 @@
 "use client";
-import useTranslation from "next-translate/useTranslation";
-import { useState } from "react";
-import { usePosts } from "../hooks/usePosts";
 import Link from "next/link";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { usePosts } from "../hooks/usePosts";
 
 export interface Post {
   id: number;
@@ -78,7 +78,7 @@ const PostList = () => {
             >
               <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
               <p className="text-gray-600 mb-4">{post.body}</p>
-              <div className="flex justify-end space-x-2">
+              <div className="flex justify-end gap-2">
                 <Link
                   href={`/posts/pages/${post.id}`}
                   className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
@@ -99,7 +99,7 @@ const PostList = () => {
       )}
 
       {/* Pagination */}
-      <div className="mt-8 flex justify-center space-x-2">
+      <div className="mt-8 flex justify-center gap-x-2">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
           disabled={currentPage === 1}

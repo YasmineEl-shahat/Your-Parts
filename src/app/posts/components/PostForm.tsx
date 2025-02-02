@@ -64,7 +64,7 @@ export default function PostForm({
         )}
       </div>
 
-      <div className="flex justify-end space-x-2">
+      <div className="flex justify-end gap-2">
         <button
           type="button"
           onClick={onCancel}
