@@ -14,6 +14,7 @@ i18n.use(initReactI18next).init({
   },
   debug: false,
   fallbackLng: "en",
+  defaultNS: "common", // default namespace
   interpolation: { escapeValue: false },
 });
 
