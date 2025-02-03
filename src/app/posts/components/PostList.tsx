@@ -15,9 +15,9 @@ const PostList = () => {
   const { t } = useTranslation("common");
   const [currentPage, setCurrentPage] = useState(1);
   const [deletingId, setDeletingId] = useState<number | null>(null);
-  const { useGetPosts, deletePost, defaultLimit } = usePosts();
   const [searchTerm, setSearchTerm] = useState("");
 
+  const { useGetPosts, deletePost, defaultLimit } = usePosts();
   const {
     data: posts,
     isLoading,
@@ -27,10 +27,18 @@ const PostList = () => {
     limit: defaultLimit,
   });
 
+  const totalPages = posts ? Math.ceil(posts.total / defaultLimit) : 1;
+
   const handleDelete = (id: number) => {
     setDeletingId(id);
     deletePost.mutate(id, {
-      onSettled: () => setDeletingId(null),
+      onSettled: () => {
+        setDeletingId(null);
+        // If the last post on the page is deleted, go to the previous page
+        if (posts?.data.length === 1 && currentPage > 1) {
+          setCurrentPage((prev) => prev - 1);
+        }
+      },
     });
   };
   const filteredPosts =
@@ -123,11 +131,12 @@ const PostList = () => {
           {t("previous")}
         </button>
         <span className="px-4 py-2 bg-gray-100 rounded">
-          {t("page")} {currentPage}
+          {t("page")} {currentPage} / {totalPages}
         </span>
         <button
           onClick={() => setCurrentPage((prev) => prev + 1)}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-300"
+          disabled={currentPage >= totalPages}
         >
           {t("next")}
         </button>
