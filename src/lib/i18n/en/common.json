@@ -15,5 +15,7 @@
   "cancel": "Cancel",
   "submitting": "Submitting...",
   "invalid_input": "Invalid input",
-  "edit": "Edit"
+  "edit": "Edit",
+  "search_placeholder": "Search parts...",
+  "no_results": "No posts match your search criteria."
 }

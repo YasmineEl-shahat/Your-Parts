@@ -16,6 +16,7 @@ const PostList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const { useGetPosts, deletePost, defaultLimit } = usePosts();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const {
     data: posts,
@@ -32,7 +33,10 @@ const PostList = () => {
       onSettled: () => setDeletingId(null),
     });
   };
-
+  const filteredPosts =
+    posts?.data?.filter((post) =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ) ?? [];
   if (error) {
     return (
       <div className="p-4 text-red-500 bg-red-50 rounded-lg">
@@ -43,8 +47,15 @@ const PostList = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">{t("posts")}</h1>
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold mb-6">{t("posts")}</h1>
+        <input
+          type="text"
+          placeholder={t("search_placeholder")}
+          className="p-2 border rounded"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
         <Link
           href="/posts/pages/create"
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
@@ -71,30 +82,34 @@ const PostList = () => {
       {/* Posts List */}
       {!isLoading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {posts?.data?.map((post) => (
-            <div
-              key={post.id}
-              className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
-            >
-              <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
-              <p className="text-gray-600 mb-4">{post.body}</p>
-              <div className="flex justify-end gap-2">
-                <Link
-                  href={`/posts/pages/${post.id}`}
-                  className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                  {t("edit")}
-                </Link>
-                <button
-                  onClick={() => handleDelete(post.id)}
-                  disabled={deletingId === post.id}
-                  className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-red-300"
-                >
-                  {deletingId === post.id ? t("deleting") : t("delete")}
-                </button>
+          {filteredPosts?.length > 0 ? (
+            filteredPosts?.map((post) => (
+              <div
+                key={post.id}
+                className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
+              >
+                <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
+                <p className="text-gray-600 mb-4">{post.body}</p>
+                <div className="flex justify-end gap-2">
+                  <Link
+                    href={`/posts/pages/${post.id}`}
+                    className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  >
+                    {t("edit")}
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(post.id)}
+                    disabled={deletingId === post.id}
+                    className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-red-300"
+                  >
+                    {deletingId === post.id ? t("deleting") : t("delete")}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-gray-500">{t("no_results")}</p>
+          )}
         </div>
       )}
 
