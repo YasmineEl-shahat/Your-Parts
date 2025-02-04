@@ -101,8 +101,10 @@ export const usePosts = () => {
   // Update a post
   const updatePost = useMutation({
     mutationFn: (updatedPost: Post) => {
-      const page = Math.ceil(updatedPost.id / defaultLimit); // Calculate the page based on the post ID
+      let page = Math.ceil(updatedPost.id / defaultLimit); // Calculate the page based on the post ID
+      if (getFromLocalStorage(page)) page = 1;
       const storedData = getFromLocalStorage(page);
+
       if (!storedData) return Promise.resolve(updatedPost);
 
       const updatedPosts = storedData.posts.map((post: Post) =>

@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { usePosts } from "../../hooks/usePosts";
 import PostForm from "../../components/PostForm";
+import Head from "next/head";
 
 export default function CreatePostPage() {
   const { t } = useTranslation("common");
@@ -19,16 +20,21 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold mb-6">{t("create_new_post")}</h1>
-        <PostForm
-          onSubmit={handleSubmit}
-          isLoading={createPost.isPending}
-          onCancel={() => router.back()}
-          t={t}
-        />
+    <>
+      <Head>
+        <title>{t("create_new_post")} | Your part App</title>
+      </Head>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto">
+          <h1 className="text-2xl font-bold mb-6">{t("create_new_post")}</h1>
+          <PostForm
+            onSubmit={handleSubmit}
+            isLoading={createPost.isPending}
+            onCancel={() => router.back()}
+            t={t}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }

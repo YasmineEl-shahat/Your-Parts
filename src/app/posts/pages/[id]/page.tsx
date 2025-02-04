@@ -1,8 +1,9 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
-import PostForm from "../../components/PostForm";
 import { usePosts } from "../../hooks/usePosts";
+import PostForm from "../../components/PostForm";
+import Head from "next/head";
 
 export default function EditPostPage() {
   const { t } = useTranslation("common");
@@ -35,27 +36,32 @@ export default function EditPostPage() {
   if (!post) return <div className="p-4">{t("post_not_found")}</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">{t("edit_post")}</h1>
-          <button
-            onClick={handleDelete}
-            disabled={deletePost.isPending}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-red-300"
-          >
-            {deletePost.isPending ? t("deleting") : t("delete")}
-          </button>
-        </div>
+    <>
+      <Head>
+        <title>{t("edit_post")} | Your part App</title>
+      </Head>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold">{t("edit_post")}</h1>
+            <button
+              onClick={handleDelete}
+              disabled={deletePost.isPending}
+              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 disabled:bg-red-300"
+            >
+              {deletePost.isPending ? t("deleting") : t("delete")}
+            </button>
+          </div>
 
-        <PostForm
-          onSubmit={handleSubmit}
-          initialValues={post}
-          isLoading={updatePost.isPending}
-          onCancel={() => router.back()}
-          t={t}
-        />
+          <PostForm
+            onSubmit={handleSubmit}
+            initialValues={post}
+            isLoading={updatePost.isPending}
+            onCancel={() => router.back()}
+            t={t}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
