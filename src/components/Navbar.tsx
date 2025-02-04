@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n/i18n";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const { t } = useTranslation("common");
@@ -15,59 +16,79 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className={`bg-white shadow-sm ${
+    <motion.nav
+      className={`bg-white bg-opacity-80 backdrop-blur-md shadow-sm transition-all ${
         lang === "ar" ? "font-noto-arabic" : "font-inter"
       }`}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link
-            href="/"
-            className="text-xl font-bold text-gray-800 hover:text-gray-600"
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
           >
-            {t("app_name")}
-          </Link>
+            <Link
+              href="/"
+              className="text-xl font-bold text-gray-800 hover:text-gray-600 transition-all"
+            >
+              {t("app_name")}
+            </Link>
+          </motion.div>
 
           {/* Navigation Links */}
-          <div className="flex items-center gap-4">
+          <motion.div
+            className="flex items-center gap-4"
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+          >
             {/* Create Post Button */}
-            <Link
-              href="/posts/pages/create"
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
-            >
-              {t("create_new_post")}
-            </Link>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link
+                href="/posts/pages/create"
+                className="px-4 py-2 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 transition-all"
+              >
+                {t("create_new_post")}
+              </Link>
+            </motion.div>
 
             {/* Language Switcher */}
             <div className="flex items-center ltr:border-l rtl:border-r border-gray-200 ltr:pl-4 rtl:pr-4">
-              <button
+              <motion.button
                 onClick={() => switchLanguage("en")}
-                className={`px-3 py-1 rounded ${
+                className={`px-3 py-1 rounded-lg transition-all ${
                   lang === "en"
-                    ? "bg-blue-100 text-blue-600"
+                    ? "bg-blue-100 text-blue-600 shadow-md"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
                 aria-label="Switch to English"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 EN
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 onClick={() => switchLanguage("ar")}
-                className={`px-3 py-1 rounded ${
+                className={`px-3 py-1 rounded-lg transition-all ${
                   lang === "ar"
-                    ? "bg-blue-100 text-blue-600"
+                    ? "bg-blue-100 text-blue-600 shadow-md"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
                 aria-label="Switch to Arabic"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               >
                 AR
-              </button>
+              </motion.button>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }

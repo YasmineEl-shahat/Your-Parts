@@ -117,13 +117,9 @@ const PostList = () => {
                   <motion.div
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
+                    className="px-3 py-1 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition-all"
                   >
-                    <Link
-                      href={`/posts/pages/${post.id}`}
-                      className="px-3 py-1 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition-all"
-                    >
-                      {t("edit")}
-                    </Link>
+                    <Link href={`/posts/pages/${post.id}`}>{t("edit")}</Link>
                   </motion.div>
                   <motion.button
                     onClick={() => handleDelete(post.id)}
