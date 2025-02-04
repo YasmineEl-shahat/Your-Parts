@@ -2,14 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { usePosts } from "../hooks/usePosts";
-
-export interface Post {
-  id: number;
-  title: string;
-  body: string;
-  userId?: number;
-}
+import { usePosts, Post } from "../hooks/usePosts";
 
 const PostList = () => {
   const { t } = useTranslation("common");
@@ -42,7 +35,7 @@ const PostList = () => {
     });
   };
   const filteredPosts =
-    posts?.data?.filter((post) =>
+    posts?.data?.filter((post: Post) =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase())
     ) ?? [];
   if (error) {
@@ -91,7 +84,7 @@ const PostList = () => {
       {!isLoading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredPosts?.length > 0 ? (
-            filteredPosts?.map((post) => (
+            filteredPosts?.map((post: Post) => (
               <div
                 key={post.id}
                 className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
